@@ -1,0 +1,401 @@
+ubuntu@ip-172-31-12-191:~$ kops create cluster --name=techthrist.info --state=s3://mykops-state --zones=ap-south-1b --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=techthrist.info
+
+I0606 12:27:14.141633    8264 create_cluster.go:519] Inferred --cloud=aws from zone "ap-south-1b"
+I0606 12:27:14.179778    8264 subnets.go:184] Assigned CIDR 172.20.32.0/19 to subnet ap-south-1b
+I0606 12:27:14.362545    8264 create_cluster.go:1486] Using SSH public key: /home/ubuntu/.ssh/id_rsa.pub
+Previewing changes that will be made:
+
+I0606 12:27:18.039901    8264 executor.go:103] Tasks: 0 done / 85 total; 43 can run
+I0606 12:27:18.819461    8264 executor.go:103] Tasks: 43 done / 85 total; 24 can run
+I0606 12:27:19.229106    8264 executor.go:103] Tasks: 67 done / 85 total; 16 can run
+I0606 12:27:19.298822    8264 executor.go:103] Tasks: 83 done / 85 total; 2 can run
+I0606 12:27:19.318990    8264 executor.go:103] Tasks: 85 done / 85 total; 0 can run
+Will create resources:
+  AutoscalingGroup/master-ap-south-1b.masters.techthrist.info
+        Granularity             1Minute
+        LaunchConfiguration     name:master-ap-south-1b.masters.techthrist.info
+        MaxSize                 1
+        Metrics                 [GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+        MinSize                 1
+        Subnets                 [name:ap-south-1b.techthrist.info]
+        SuspendProcesses        []
+        Tags                    {k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-ap-south-1b, k8s.io/role/master: 1,Name: master-ap-south-1b.masters.techthrist.info, KubernetesCluster: techthrist.info}
+
+  AutoscalingGroup/nodes.techthrist.info
+        Granularity             1Minute
+        LaunchConfiguration     name:nodes.techthrist.info
+        MaxSize                 2
+        Metrics                 [GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+        MinSize                 2
+        Subnets                 [name:ap-south-1b.techthrist.info]
+        SuspendProcesses        []
+        Tags                    {KubernetesCluster: techthrist.info, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: nodes,k8s.io/role/node: 1, Name: nodes.techthrist.info}
+
+  DHCPOptions/techthrist.info
+        DomainName              ap-south-1.compute.internal
+        DomainNameServers       AmazonProvidedDNS
+        Shared                  false
+        Tags                    {Name: techthrist.info, KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned}
+
+  EBSVolume/b.etcd-events.techthrist.info
+        AvailabilityZone        ap-south-1b
+        Encrypted               false
+        SizeGB                  20
+        Tags                    {k8s.io/etcd/events: b/b, k8s.io/role/master: 1, kubernetes.io/cluster/techthrist.info: owned, Name: b.etcd-events.techthrist.info, KubernetesCluster: techthrist.info}
+        VolumeType              gp2
+
+  EBSVolume/b.etcd-main.techthrist.info
+        AvailabilityZone        ap-south-1b
+        Encrypted               false
+        SizeGB                  20
+        Tags                    {k8s.io/etcd/main: b/b, k8s.io/role/master: 1, kubernetes.io/cluster/techthrist.info: owned, Name: b.etcd-main.techthrist.info, KubernetesCluster: techthrist.info}
+        VolumeType              gp2
+
+  IAMInstanceProfile/masters.techthrist.info
+        Shared                  false
+
+  IAMInstanceProfile/nodes.techthrist.info
+        Shared                  false
+
+  IAMInstanceProfileRole/masters.techthrist.info
+        InstanceProfile         name:masters.techthrist.info id:masters.techthrist.info
+        Role                    name:masters.techthrist.info
+
+  IAMInstanceProfileRole/nodes.techthrist.info
+        InstanceProfile         name:nodes.techthrist.info id:nodes.techthrist.info
+        Role                    name:nodes.techthrist.info
+
+  IAMRole/masters.techthrist.info
+        ExportWithID            masters
+
+  IAMRole/nodes.techthrist.info
+        ExportWithID            nodes
+
+  IAMRolePolicy/masters.techthrist.info
+        Role                    name:masters.techthrist.info
+
+  IAMRolePolicy/nodes.techthrist.info
+        Role                    name:nodes.techthrist.info
+
+  InternetGateway/techthrist.info
+        VPC                     name:techthrist.info
+        Shared                  false
+        Tags                    {Name: techthrist.info, KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned}
+
+  Keypair/apiserver-aggregator
+        Signer                  name:apiserver-aggregator-ca id:cn=apiserver-aggregator-ca
+        Subject                 cn=aggregator
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/apiserver-aggregator-ca
+        Subject                 cn=apiserver-aggregator-ca
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/apiserver-proxy-client
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 cn=apiserver-proxy-client
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/ca
+        Subject                 cn=kubernetes
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/etcd-clients-ca
+        Subject                 cn=etcd-clients-ca
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/etcd-manager-ca-events
+        Subject                 cn=etcd-manager-ca-events
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/etcd-manager-ca-main
+        Subject                 cn=etcd-manager-ca-main
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/etcd-peers-ca-events
+        Subject                 cn=etcd-peers-ca-events
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/etcd-peers-ca-main
+        Subject                 cn=etcd-peers-ca-main
+        Type                    ca
+        Format                  v1alpha2
+
+  Keypair/kops
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 o=system:masters,cn=kops
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/kube-controller-manager
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 cn=system:kube-controller-manager
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/kube-proxy
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 cn=system:kube-proxy
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/kube-scheduler
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 cn=system:kube-scheduler
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/kubecfg
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 o=system:masters,cn=kubecfg
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/kubelet
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 o=system:nodes,cn=kubelet
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/kubelet-api
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 cn=kubelet-api
+        Type                    client
+        Format                  v1alpha2
+
+  Keypair/master
+        AlternateNames          [100.64.0.1, 127.0.0.1, api.internal.techthrist.info, api.techthrist.info, kubernetes, kubernetes.default, kubernetes.default.svc, kubernetes.default.svc.cluster.local]
+        Signer                  name:ca id:cn=kubernetes
+        Subject                 cn=kubernetes-master
+        Type                    server
+        Format                  v1alpha2
+
+  LaunchConfiguration/master-ap-south-1b.masters.techthrist.info
+        AssociatePublicIP       true
+        IAMInstanceProfile      name:masters.techthrist.info id:masters.techthrist.info
+        ImageID                 kope.io/k8s-1.12-debian-stretch-amd64-hvm-ebs-2019-05-13
+        InstanceType            t2.micro
+        RootVolumeSize          64
+        RootVolumeType          gp2
+        SSHKey                  name:kubernetes.techthrist.info-d8:0e:1f:95:52:87:43:53:49:eb:d6:7f:23:0a:00:8b id:kubernetes.techthrist.info-d8:0e:1f:95:52:87:43:53:49:eb:d6:7f:23:0a:00:8b
+        SecurityGroups          [name:masters.techthrist.info]
+        SpotPrice
+
+  LaunchConfiguration/nodes.techthrist.info
+        AssociatePublicIP       true
+        IAMInstanceProfile      name:nodes.techthrist.info id:nodes.techthrist.info
+        ImageID                 kope.io/k8s-1.12-debian-stretch-amd64-hvm-ebs-2019-05-13
+        InstanceType            t2.micro
+        RootVolumeSize          128
+        RootVolumeType          gp2
+        SSHKey                  name:kubernetes.techthrist.info-d8:0e:1f:95:52:87:43:53:49:eb:d6:7f:23:0a:00:8b id:kubernetes.techthrist.info-d8:0e:1f:95:52:87:43:53:49:eb:d6:7f:23:0a:00:8b
+        SecurityGroups          [name:nodes.techthrist.info]
+        SpotPrice
+
+  ManagedFile/etcd-cluster-spec-events
+        Location                backups/etcd/events/control/etcd-cluster-spec
+
+  ManagedFile/etcd-cluster-spec-main
+        Location                backups/etcd/main/control/etcd-cluster-spec
+
+  ManagedFile/manifests-etcdmanager-events
+        Location                manifests/etcd/events.yaml
+
+  ManagedFile/manifests-etcdmanager-main
+        Location                manifests/etcd/main.yaml
+
+  ManagedFile/techthrist.info-addons-bootstrap
+        Location                addons/bootstrap-channel.yaml
+
+  ManagedFile/techthrist.info-addons-core.addons.k8s.io
+        Location                addons/core.addons.k8s.io/v1.4.0.yaml
+
+  ManagedFile/techthrist.info-addons-dns-controller.addons.k8s.io-k8s-1.12
+        Location                addons/dns-controller.addons.k8s.io/k8s-1.12.yaml
+
+  ManagedFile/techthrist.info-addons-dns-controller.addons.k8s.io-k8s-1.6
+        Location                addons/dns-controller.addons.k8s.io/k8s-1.6.yaml
+
+  ManagedFile/techthrist.info-addons-dns-controller.addons.k8s.io-pre-k8s-1.6
+        Location                addons/dns-controller.addons.k8s.io/pre-k8s-1.6.yaml
+
+  ManagedFile/techthrist.info-addons-kube-dns.addons.k8s.io-k8s-1.12
+        Location                addons/kube-dns.addons.k8s.io/k8s-1.12.yaml
+
+  ManagedFile/techthrist.info-addons-kube-dns.addons.k8s.io-k8s-1.6
+        Location                addons/kube-dns.addons.k8s.io/k8s-1.6.yaml
+
+  ManagedFile/techthrist.info-addons-kube-dns.addons.k8s.io-pre-k8s-1.6
+        Location                addons/kube-dns.addons.k8s.io/pre-k8s-1.6.yaml
+
+  ManagedFile/techthrist.info-addons-kubelet-api.rbac.addons.k8s.io-k8s-1.9
+        Location                addons/kubelet-api.rbac.addons.k8s.io/k8s-1.9.yaml
+
+  ManagedFile/techthrist.info-addons-limit-range.addons.k8s.io
+        Location                addons/limit-range.addons.k8s.io/v1.5.0.yaml
+
+  ManagedFile/techthrist.info-addons-rbac.addons.k8s.io-k8s-1.8
+        Location                addons/rbac.addons.k8s.io/k8s-1.8.yaml
+
+  ManagedFile/techthrist.info-addons-storage-aws.addons.k8s.io-v1.6.0
+        Location                addons/storage-aws.addons.k8s.io/v1.6.0.yaml
+
+  ManagedFile/techthrist.info-addons-storage-aws.addons.k8s.io-v1.7.0
+        Location                addons/storage-aws.addons.k8s.io/v1.7.0.yaml
+
+  Route/0.0.0.0/0
+        RouteTable              name:techthrist.info
+        CIDR                    0.0.0.0/0
+        InternetGateway         name:techthrist.info
+
+  RouteTable/techthrist.info
+        VPC                     name:techthrist.info
+        Shared                  false
+        Tags                    {KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned, kubernetes.io/kops/role: public, Name: techthrist.info}
+
+  RouteTableAssociation/ap-south-1b.techthrist.info
+        RouteTable              name:techthrist.info
+        Subnet                  name:ap-south-1b.techthrist.info
+
+  SSHKey/kubernetes.techthrist.info-d8:0e:1f:95:52:87:43:53:49:eb:d6:7f:23:0a:00:8b
+        KeyFingerprint          8b:f4:c3:76:d8:e5:98:de:89:94:f4:dd:1a:54:b4:80
+
+  Secret/admin
+
+  Secret/kube
+
+  Secret/kube-proxy
+
+  Secret/kubelet
+
+  Secret/system:controller_manager
+
+  Secret/system:dns
+
+  Secret/system:logging
+
+  Secret/system:monitoring
+
+  Secret/system:scheduler
+
+  SecurityGroup/masters.techthrist.info
+        Description             Security group for masters
+        VPC                     name:techthrist.info
+        RemoveExtraRules        [port=22, port=443, port=2380, port=2381, port=4001, port=4002, port=4789, port=179]
+        Tags                    {Name: masters.techthrist.info, KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned}
+
+  SecurityGroup/nodes.techthrist.info
+        Description             Security group for nodes
+        VPC                     name:techthrist.info
+        RemoveExtraRules        [port=22]
+        Tags                    {Name: nodes.techthrist.info, KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned}
+
+  SecurityGroupRule/all-master-to-master
+        SecurityGroup           name:masters.techthrist.info
+        SourceGroup             name:masters.techthrist.info
+
+  SecurityGroupRule/all-master-to-node
+        SecurityGroup           name:nodes.techthrist.info
+        SourceGroup             name:masters.techthrist.info
+
+  SecurityGroupRule/all-node-to-node
+        SecurityGroup           name:nodes.techthrist.info
+        SourceGroup             name:nodes.techthrist.info
+
+  SecurityGroupRule/https-external-to-master-0.0.0.0/0
+        SecurityGroup           name:masters.techthrist.info
+        CIDR                    0.0.0.0/0
+        Protocol                tcp
+        FromPort                443
+        ToPort                  443
+
+  SecurityGroupRule/master-egress
+        SecurityGroup           name:masters.techthrist.info
+        CIDR                    0.0.0.0/0
+        Egress                  true
+
+  SecurityGroupRule/node-egress
+        SecurityGroup           name:nodes.techthrist.info
+        CIDR                    0.0.0.0/0
+        Egress                  true
+
+  SecurityGroupRule/node-to-master-tcp-1-2379
+        SecurityGroup           name:masters.techthrist.info
+        Protocol                tcp
+        FromPort                1
+        ToPort                  2379
+        SourceGroup             name:nodes.techthrist.info
+
+  SecurityGroupRule/node-to-master-tcp-2382-4000
+        SecurityGroup           name:masters.techthrist.info
+        Protocol                tcp
+        FromPort                2382
+        ToPort                  4000
+        SourceGroup             name:nodes.techthrist.info
+
+  SecurityGroupRule/node-to-master-tcp-4003-65535
+        SecurityGroup           name:masters.techthrist.info
+        Protocol                tcp
+        FromPort                4003
+        ToPort                  65535
+        SourceGroup             name:nodes.techthrist.info
+
+  SecurityGroupRule/node-to-master-udp-1-65535
+        SecurityGroup           name:masters.techthrist.info
+        Protocol                udp
+        FromPort                1
+        ToPort                  65535
+        SourceGroup             name:nodes.techthrist.info
+
+  SecurityGroupRule/ssh-external-to-master-0.0.0.0/0
+        SecurityGroup           name:masters.techthrist.info
+        CIDR                    0.0.0.0/0
+        Protocol                tcp
+        FromPort                22
+        ToPort                  22
+
+  SecurityGroupRule/ssh-external-to-node-0.0.0.0/0
+        SecurityGroup           name:nodes.techthrist.info
+        CIDR                    0.0.0.0/0
+        Protocol                tcp
+        FromPort                22
+        ToPort                  22
+
+  Subnet/ap-south-1b.techthrist.info
+        ShortName               ap-south-1b
+        VPC                     name:techthrist.info
+        AvailabilityZone        ap-south-1b
+        CIDR                    172.20.32.0/19
+        Shared                  false
+        Tags                    {Name: ap-south-1b.techthrist.info, KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned, SubnetType: Public, kubernetes.io/role/elb: 1}
+
+  VPC/techthrist.info
+        CIDR                    172.20.0.0/16
+        EnableDNSHostnames      true
+        EnableDNSSupport        true
+        Shared                  false
+        Tags                    {KubernetesCluster: techthrist.info, kubernetes.io/cluster/techthrist.info: owned, Name: techthrist.info}
+
+  VPCDHCPOptionsAssociation/techthrist.info
+        VPC                     name:techthrist.info
+        DHCPOptions             name:techthrist.info
+
+Must specify --yes to apply changes
+
+Cluster configuration has been created.
+
+Suggestions:
+ * list clusters with: kops get cluster
+ * edit this cluster with: kops edit cluster techthrist.info
+ * edit your node instance group: kops edit ig --name=techthrist.info nodes
+ * edit your master instance group: kops edit ig --name=techthrist.info master-ap-south-1b
+
+Finally configure your cluster with: kops update cluster --name techthrist.info --yes
