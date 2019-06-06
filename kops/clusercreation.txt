@@ -1,0 +1,47 @@
+Kubernetes Cluster setup on AWS:
+================================
+Note: This is done from another aws ec2 instance.
+
+curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+chmod +x kops-linux-amd64
+sudo mv kops-linux-amd64 /usr/local/bin/kops
+
+sudo apt-get install python-pip
+sudo pip install awscli
+
+- create an IAM user in AWS by name 'kops' with programmatic access
+  Give admin rights to the user, kops
+  
+- create a S3 bucket that stores kops state
+  'mykops-state'
+
+- set DNS
+  you need to have a domain name(techthrist.info) already hosted on AWS route 53 hosted zones. 
+  If yes, create a subdomain(kubernetes.techthrist.info) by creating a new hosted zone. Add the name servers that created with your new hosted zone to 
+  namecheap's dns entries.
+  It will work with domain name also(if you cannot create subdomain).
+  
+- Download kubectl and move it to /usr/local/bin/
+wget https://storage.googleapis.com/kubernetes-release/release/v1.11.0/bin/linux/amd64/kubectl
+mv kubectl /usr/local/bin
+chmod +x /usr/local/bin/kubectl
+
+- Before creating kubernetes cluster, need to Generate ssh keys to login to the cluster
+ssh-keygen
+
+- cluster config creation(it just creates the config)
+kops create cluster --name=techthrist.info --state=s3://mykops-state --zones=ap-south-1b --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=techthrist.info
+
+- To execute/apply the config,
+kops update cluster --name techthrist.info --yes --state=s3://mykops-state
+
+After this command, the config is stored in ~/.kube/config
+
+- After executing above command, the cluster gets created with all required things created on the aws. Now check the cluster status by executing the
+command,
+kubectl get nodes
+Thats it your cluster is ready to user
+
+- To delete the cluster, 
+kops delete cluster techthrist.info --state=s3://mykops-state
+
