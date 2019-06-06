@@ -1,0 +1,36 @@
+ubuntu@ip-172-31-12-191:~$ kops update cluster --name techthrist.info --yes --state=s3://mykops-state
+I0606 12:33:47.259699    8284 executor.go:103] Tasks: 0 done / 85 total; 43 can run
+I0606 12:33:48.475150    8284 vfs_castore.go:729] Issuing new certificate: "ca"
+I0606 12:33:48.483667    8284 vfs_castore.go:729] Issuing new certificate: "etcd-peers-ca-main"
+I0606 12:33:49.156227    8284 vfs_castore.go:729] Issuing new certificate: "etcd-peers-ca-events"
+I0606 12:33:49.199416    8284 vfs_castore.go:729] Issuing new certificate: "etcd-manager-ca-main"
+I0606 12:33:49.423292    8284 vfs_castore.go:729] Issuing new certificate: "apiserver-aggregator-ca"I0606 12:33:49.587321    8284 vfs_castore.go:729] Issuing new certificate: "etcd-manager-ca-events"
+I0606 12:33:49.611033    8284 vfs_castore.go:729] Issuing new certificate: "etcd-clients-ca"
+I0606 12:33:49.744487    8284 executor.go:103] Tasks: 43 done / 85 total; 24 can run
+I0606 12:33:51.418582    8284 vfs_castore.go:729] Issuing new certificate: "kube-controller-manager"
+I0606 12:33:52.630694    8284 vfs_castore.go:729] Issuing new certificate: "master"
+I0606 12:33:52.995586    8284 vfs_castore.go:729] Issuing new certificate: "kube-scheduler"
+I0606 12:33:53.339417    8284 vfs_castore.go:729] Issuing new certificate: "kubelet"
+I0606 12:33:53.391280    8284 vfs_castore.go:729] Issuing new certificate: "kubelet-api"
+I0606 12:33:53.612550    8284 vfs_castore.go:729] Issuing new certificate: "apiserver-aggregator"
+I0606 12:33:53.789042    8284 vfs_castore.go:729] Issuing new certificate: "kubecfg"
+I0606 12:33:54.121981    8284 vfs_castore.go:729] Issuing new certificate: "apiserver-proxy-client"
+I0606 12:33:54.394865    8284 vfs_castore.go:729] Issuing new certificate: "kube-proxy"
+I0606 12:33:54.616430    8284 vfs_castore.go:729] Issuing new certificate: "kops"
+I0606 12:33:54.735917    8284 executor.go:103] Tasks: 67 done / 85 total; 16 can run
+I0606 12:33:54.884486    8284 launchconfiguration.go:364] waiting for IAM instance profile "nodes.techthrist.info" to be ready
+I0606 12:33:54.897588    8284 launchconfiguration.go:364] waiting for IAM instance profile "masters.techthrist.info" to be ready
+I0606 12:34:05.201969    8284 executor.go:103] Tasks: 83 done / 85 total; 2 can run
+I0606 12:34:05.628921    8284 executor.go:103] Tasks: 85 done / 85 total; 0 can run
+I0606 12:34:05.629143    8284 dns.go:153] Pre-creating DNS records
+I0606 12:34:07.121613    8284 update_cluster.go:291] Exporting kubecfg for cluster
+kops has set your kubectl context to techthrist.info
+
+Cluster is starting.  It should be ready in a few minutes.
+
+Suggestions:
+ * validate cluster: kops validate cluster
+ * list nodes: kubectl get nodes --show-labels
+ * ssh to the master: ssh -i ~/.ssh/id_rsa admin@api.techthrist.info
+ * the admin user is specific to Debian. If not using Debian please use the appropriate user based on your OS.
+ * read about installing addons at: https://github.com/kubernetes/kops/blob/master/docs/addons.md.
