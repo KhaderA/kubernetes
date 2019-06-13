@@ -1,0 +1,7 @@
+
+
+
+The dashboard after 1.17 version would be available at,
+https://api.<master-ip>:<apiserver-port>/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+https://api.techthrist.info:443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
